@@ -4,10 +4,10 @@ from typing import Optional, Union, List
 class Params:
   # Model architecture
   vocab_size: int = 30000
-  hidden_size: int = 100  # default 150  # of the encoder; default decoder size is doubled if encoder is bidi
+  hidden_size: int = 150  # default 150  # of the encoder; default decoder size is doubled if encoder is bidi
   dec_hidden_size: Optional[int] = 200  # if set, a matrix will transform enc state into dec state
   embed_size: int = 100
-  enc_bidi: bool = False  # default True
+  enc_bidi: bool = True  # default True
   enc_attn: bool = True  # decoder has attention over encoder states?
   dec_attn: bool = False  # decoder has attention over previous decoder states?
   pointer: bool = True  # use pointer network (copy mechanism) in addition to word generator?
@@ -32,7 +32,7 @@ class Params:
   adagrad_accumulator: float = 0.1
   lr_decay_step: int = 5  # decay lr every how many epochs?
   lr_decay: Optional[float] = None  # decay lr by multiplying this factor
-  batch_size: int = 32
+  batch_size: int = 10
   n_batches: int = 1000  # how many batches per epoch
   val_batch_size: int = 32
   n_val_batches: int = 100  # how many validation batches per epoch
