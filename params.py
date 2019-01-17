@@ -4,13 +4,13 @@ from typing import Optional, Union, List
 class Params:
   # Model architecture
   vocab_size: int = 32000
-  hidden_size: int = 150  # default 150  # of the encoder; default decoder size is doubled if encoder is bidi
-  dec_hidden_size: Optional[int] = 200  # if set, a matrix will transform enc state into dec state
+  hidden_size: int = 160  # default 150  # of the encoder; default decoder size is doubled if encoder is bidi
+  dec_hidden_size: Optional[int] = 180  # default 200 if set, a matrix will transform enc state into dec state
   embed_size: int = 100
   enc_bidi: bool = True  # default True
-  enc_attn: bool = True  # decoder has attention over encoder states?
-  dec_attn: bool = False  # decoder has attention over previous decoder states?
-  pointer: bool = True  # use pointer network (copy mechanism) in addition to word generator?
+  enc_attn: bool = True  # default True decoder has attention over encoder states?
+  dec_attn: bool = False  # default False, decoder has attention over previous decoder states?
+  pointer: bool = True  # default True, use pointer network (copy mechanism) in addition to word generator?
   out_embed_size: Optional[int] = None  # if set, use an additional layer before decoder output
   tie_embed: bool = True  # tie the decoder output layer to the input embedding layer?
 
@@ -21,21 +21,21 @@ class Params:
   show_cover_loss: bool = False  # include coverage loss in the loss shown in the progress bar?
 
   # Regularization
-  enc_rnn_dropout: float = .4
-  dec_in_dropout: float = .1
-  dec_rnn_dropout: float = .4
-  dec_out_dropout: float = .1
+  enc_rnn_dropout: float = .4  # default None
+  dec_in_dropout: float = .1   # default None
+  dec_rnn_dropout: float = .4  # default None
+  dec_out_dropout: float = .1  # default None
 
   # Training
   optimizer: str = 'adam'  # adam or adagrad
   lr: float = 0.0008  # learning rate
   adagrad_accumulator: float = 0.1
-  lr_decay_step: int = 11  # decay lr every how many epochs?
-  lr_decay: Optional[float] = .9  # decay lr by multiplying this factor
-  batch_size: int = 16
-  n_batches: int = 1600  # how many batches per epoch
+  lr_decay_step: int = 6  # defalt 5 decay lr every how many epochs?
+  lr_decay: Optional[float] = .95  # default 1, decay lr by multiplying this factor
+  batch_size: int = 19
+  n_batches: int = 1600  # default 1500? how many batches per epoch
   val_batch_size: int = 16
-  n_val_batches: int = 50  # how many validation batches per epoch
+  n_val_batches: int = 50  # default 100? how many validation batches per epoch
   n_epochs: int = 130
   pack_seq: bool = True  # use packed sequence to skip PAD inputs?
   forcing_ratio: float = 0.75  # initial percentage of using teacher forcing
@@ -53,8 +53,8 @@ class Params:
   embed_file: Optional[str] = 'data/.vector_cache/glove.6B.100d.txt'  # use pre-trained embeddings
   data_path: str = 'data/cnndm.gz'
   val_data_path: Optional[str] = 'data/cnndm.val.gz'
-  max_src_len: int = 400  # exclusive of special tokens such as EOS
-  max_tgt_len: int = 90  # exclusive of special tokens such as EOS
+  max_src_len: int = 400  # default 400, exclusive of special tokens such as EOS
+  max_tgt_len: int = 90  # default 100, exclusive of special tokens such as EOS
   truncate_src: bool = True  # truncate to max_src_len? if false, drop example if too long
   truncate_tgt: bool = True  # truncate to max_tgt_len? if false, drop example if too long
 
@@ -64,11 +64,11 @@ class Params:
 
   # Testing
   beam_size: int = 4
-  min_out_len: int = 60
-  max_out_len: Optional[int] = 100
-  out_len_in_words: bool = False
+  min_out_len: int = 30  # default 60
+  max_out_len: Optional[int] = 100  # default 100
+  out_len_in_words: bool = False  # default Faluse (why? everything else is in words)
   test_data_path: str = 'data/cnndm.test.gz'
-  test_sample_ratio: float = .5  # what portion of the test data is used? (1 for all data)
+  test_sample_ratio: float = .5  # default 1, what portion of the test data is used? (1 for all data)
   test_save_results: bool = True
 
   def update(self, cmd_args: List[str]):

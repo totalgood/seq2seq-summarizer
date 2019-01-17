@@ -283,7 +283,7 @@ def show_plot(loss, step=1, val_loss=None, val_metric=None, val_step=1, file_pre
   # this locator puts ticks at regular intervals
   loc = ticker.MultipleLocator(base=0.2)
   ax.yaxis.set_major_locator(loc)
-  ax.set_ylabel('Loss', color='b')
+  ax.set_ylabel('Loss (green=val, blue=train)', color='b')
   ax.set_xlabel('Batch')
   plt.plot(range(step, len(loss) * step + 1, step), loss, 'b')
   if val_loss:
@@ -292,9 +292,9 @@ def show_plot(loss, step=1, val_loss=None, val_metric=None, val_step=1, file_pre
     ax2 = ax.twinx()
     ax2.plot(range(val_step, len(val_metric) * val_step + 1, val_step), val_metric, 'r')
     ax2.set_ylabel('ROUGE', color='r')
-  if file_prefix:
-    plt.savefig(file_prefix + '.png')
-    plt.close()
+  # if file_prefix:
+  plt.savefig((file_prefix or 'training_progress') + '.png')
+  plt.close()
 
 
 def show_attention_map(src_words, pred_words, attention, pointer_ratio=None):
